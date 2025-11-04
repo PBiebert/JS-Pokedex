@@ -16,8 +16,9 @@
 
     <!-- Embedding JavaScript -->
     <script src="src/js/script.js" defer></script>
+    <script src="src/js/templates.js" defer></script>
   </head>
-  <body>
+  <body onload="init()">
     <header>
       <nav class="container">
         <div class="logo-container">
@@ -45,22 +46,9 @@
       </nav>
     </header>
     <main>
-      <div class="card-container container">
-        <div class="card-body water">
-          <div class="background-img">
-            <svg class="poke-background" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-              <path d="M3 12a9 9 0 1 0 18 0 9 9 0 1 0 -18 0"></path>
-              <path d="M9 12a3 3 0 1 0 6 0 3 3 0 1 0 -6 0"></path>
-              <path d="M3 12h6"></path>
-              <path d="M15 12h6"></path>
-            </svg>
-          </div>
-          <div class="data-container">
-            <h2 class="name" id="name">Name</h2>
-            <div class="elements"></div>
-          </div>
-          <div class="poke-img"></div>
-        </div>
+      <div class="card-container container"></div>
+      <div class="button-container container">
+        <button id="load-more" type="button" onclick="loadMore()">load more</button>
       </div>
     </main>
 

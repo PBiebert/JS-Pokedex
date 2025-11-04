@@ -1,0 +1,15 @@
+.card-container {
+  display: flex;
+  justify-content: stretch;
+  flex-wrap: wrap;
+  padding: 1.5rem;
+  gap: 1rem;
+}
+
+.button-container {
+  width: 100%;
+  display: flex;
+  margin: 1rem 0;
+  align-items: center;
+  justify-content: center;
+}

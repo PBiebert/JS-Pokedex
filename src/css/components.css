@@ -14,8 +14,7 @@
 }
 
 .search-button {
-  background-color: transparent;
-  border: none;
+  background: transparent;
 }
 
 .search-icon {
@@ -28,10 +27,11 @@
   position: relative;
   overflow: hidden;
   display: flex;
-  margin: 25px 25px 0 0;
+
   padding: 10px;
   height: 200px;
-  width: 400px;
+  min-width: 280px;
+  flex: 1;
   border-radius: 1rem;
   cursor: pointer;
   transition: all 125ms ease-in-out;
@@ -57,16 +57,44 @@
   width: 400px;
   stroke-width: 2px;
   filter: opacity(0.3);
+  z-index: 1;
 }
 
 .data-container {
+  display: flex;
+  flex-direction: column;
   height: 100%;
   width: 60%;
+  z-index: 2;
+}
+
+.elements {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  gap: 10px;
+}
+
+.element {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+  padding: 0.5rem;
+  border-radius: 10px;
+  min-width: 4rem;
+  border: 1px solid rgba(0, 0, 0, 0.5);
 }
 
 .poke-img {
+  display: flex;
   height: 100%;
   width: 40%;
+  z-index: 2;
+}
+
+.poke-img > img {
+  width: 100%;
 }
 
 .normal {
