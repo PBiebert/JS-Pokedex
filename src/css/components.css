@@ -172,3 +172,49 @@
 .dialog-nav-activ {
   background-color: rgb(201, 201, 201);
 }
+
+.overlay {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+
+  top: 0;
+  left: 0;
+  z-index: 3;
+  height: 100%;
+  width: 100%;
+  /* background: var(--color-bg-main); */
+
+  & svg {
+    height: 250px;
+    width: 250px;
+    animation-name: rotate;
+    animation-duration: 3s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    z-index: 2;
+
+    & .cls-1 {
+      fill: #010101;
+    }
+
+    & .cls-2 {
+      fill: #fff;
+    }
+
+    & .cls-3 {
+      fill: #eb2127;
+    }
+  }
+}
+
+@keyframes rotate {
+  0% {
+    rotate: 0deg;
+  }
+  100% {
+    rotate: 360deg;
+  }
+}

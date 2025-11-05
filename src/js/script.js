@@ -1,6 +1,7 @@
 "use strict";
 const dialog = document.querySelector("dialog");
 let currentStack = [];
+let allPokemonStack = [];
 let currentDialog;
 let counter = 3;
 let offset = 0;
@@ -12,9 +13,13 @@ document.addEventListener("keyup", (event) => {
 });
 
 async function init() {
+  loadSpinner(true);
   await loadPokemonList(counter, offset);
   renderPokemonCard();
+  renderLoadMoreButton();
+  loadSpinner(false);
   console.log(currentStack);
+  loadAllPokemonName();
 }
 
 async function loadPokemonList(counter, offset) {
@@ -43,6 +48,12 @@ async function loadPokemonDetails(fetchStack) {
       console.log(`Fehler beim laden der Details`);
     }
   }
+}
+
+async function loadAllPokemonName() {
+  const response = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=10000&offset=0`);
+  const responseToJson = await response.json();
+  allPokemonStack.push(responseToJson.results);
 }
 
 function createNewPokemon(pokemonData) {
@@ -88,11 +99,19 @@ function capitalizeFirstLetter(word) {
   return capitalized;
 }
 
+function renderLoadMoreButton() {
+  const buttonContainer = document.querySelector(".button-container");
+  buttonContainer.innerHTML += templateLoadMoreButton();
+}
+
 async function loadMore() {
   offset += counter;
-
+  ButtonDisableToggle(true);
+  loadSpinner(true);
   await loadPokemonList(counter, offset);
   renderPokemonCard();
+  ButtonDisableToggle(false);
+  loadSpinner(false);
 }
 
 function openDialog(id) {
@@ -100,12 +119,13 @@ function openDialog(id) {
   currentDialog = stackId;
   renderDialog(stackId);
   setDialogElements(stackId);
-
+  setOverflowHiddn("body");
   dialog.showModal();
 }
 
 function closeDialog() {
   dialog.close();
+  removeOverflowHiddn("body");
   dialog.innerHTML = "";
 }
 
@@ -212,5 +232,30 @@ function checkValidateCurrentIndex() {
     currentDialog = currentStack.length - 1;
   } else if (currentDialog == currentStack.length) {
     currentDialog = 0;
+  }
+}
+
+function setOverflowHiddn(element) {
+  let setElement = document.querySelector(element);
+  setElement.classList.add("overflowHidden");
+}
+
+function removeOverflowHiddn(element) {
+  let setElement = document.querySelector(element);
+  setElement.classList.remove("overflowHidden");
+}
+
+function ButtonDisableToggle(value) {
+  const button = document.getElementById("load-more");
+  button.disabled = value;
+}
+
+function loadSpinner(value) {
+  if (value == true) {
+    const main = document.querySelector("main");
+    main.innerHTML += spinner();
+  } else if (value == false) {
+    const overlay = document.querySelector(".overlay");
+    overlay.remove();
   }
 }

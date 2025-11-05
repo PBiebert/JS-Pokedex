@@ -16,6 +16,12 @@
 :root {
   /* Farbe */
   --color-bg-main: linear-gradient(45deg, #001830 0%, #294461 50%, #00162e 100%);
+  --color-bg-main-transparent: linear-gradient(
+    45deg,
+    rgba(0, 24, 48, 0.7) 0%,
+    rgba(41, 68, 97, 0.7) 50%,
+    rgba(0, 22, 46, 0.7) 100%
+  );
   --color-bg-header-footer: linear-gradient(90deg, #00284f 0%, #00162e 100%);
   --color-bg-img: rgba(227, 227, 227, 0.2);
   --color-fonts: rgb(227, 227, 227);
@@ -137,8 +143,7 @@ dialog {
 }
 
 dialog::backdrop {
-  background: var(--color-bg-main);
-  filter: opacity(0.7);
+  background: var(--color-bg-main-transparent);
 }
 
 ul {
