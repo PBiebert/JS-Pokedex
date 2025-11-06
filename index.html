@@ -33,7 +33,13 @@
         </div>
         <div class="controls">
           <form>
-            <input id="search" type="text" placeholder="search...." />
+            <input
+              id="search"
+              type="text"
+              placeholder="search...."
+              onkeyup="filterAllPokemon()"
+              title="please input minimal 3 characters"
+            />
             <button class="search-button" type="button">
               <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
                 <path

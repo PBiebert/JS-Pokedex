@@ -40,7 +40,7 @@ function templateDialog(stackId) {
               <button class="close-dialog" onclick="closeDialog()">X</button>
             </div>
             <div class="picture-class-area">
-              <div class="elements" id=dialog-element-container>
+              <div class="elements" id="dialog-element-container">
 
               </div>
               <img class="poke-img" src="${currentStack[stackId].img}" alt="Bild von ${currentStack[stackId].name}" />
@@ -136,4 +136,13 @@ function spinner() {
           />
         </svg>
       </div>`;
+}
+
+function templateErrorMassage(error) {
+  return `
+  <div class="error-massage">
+    <p>Es ist ein Fehler aufgetreten</p>
+    <p>Bitte versuchen Sie es später erneut</p>
+    <p>Fehler: ${error}</p>
+  </div>`;
 }

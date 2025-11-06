@@ -1,4 +1,5 @@
 "use strict";
+const main = document.querySelector("main");
 const dialog = document.querySelector("dialog");
 let currentStack = [];
 let allPokemonStack = [];
@@ -28,10 +29,8 @@ async function loadPokemonList(counter, offset) {
     const responseToJson = await response.json();
     let fetchStack = responseToJson.results;
     await loadPokemonDetails(fetchStack);
-
-    fetchStack = [];
   } catch (error) {
-    console.log(`Fehler beim laden der PokemonListe`);
+    errorMassage(error);
   }
 }
 
@@ -45,7 +44,7 @@ async function loadPokemonDetails(fetchStack) {
 
       createNewPokemon(pokemonData);
     } catch (error) {
-      console.log(`Fehler beim laden der Details`);
+      errorMassage(error);
     }
   }
 }
@@ -53,7 +52,7 @@ async function loadPokemonDetails(fetchStack) {
 async function loadAllPokemonName() {
   const response = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=10000&offset=0`);
   const responseToJson = await response.json();
-  allPokemonStack.push(responseToJson.results);
+  allPokemonStack.push(...responseToJson.results);
 }
 
 function createNewPokemon(pokemonData) {
@@ -118,7 +117,10 @@ function openDialog(id) {
   const stackId = Number(id - 1);
   currentDialog = stackId;
   renderDialog(stackId);
+  setDialogBackgroundColor(stackId);
   setDialogElements(stackId);
+  setDialogAbilities(stackId);
+  setDialogStats(stackId);
   setOverflowHiddn("body");
   dialog.showModal();
 }
@@ -131,9 +133,6 @@ function closeDialog() {
 
 function renderDialog(stackId) {
   dialog.innerHTML += templateDialog(stackId);
-  setDialogBackgroundColor(stackId);
-  setDialogAbilities(stackId);
-  setDialogStats(stackId);
 }
 
 function setDialogBackgroundColor(stackId) {
@@ -235,6 +234,18 @@ function checkValidateCurrentIndex() {
   }
 }
 
+// function filterAllPokemon() {
+//   let inputField = document.getElementById("search");
+//   let inputMassage = inputField.value;
+
+//   let filterResult = allPokemonStack.filter();
+//   console.log(filterResult);
+
+//   // if (inputMassage.length >= 3) {
+
+//   // }
+// }
+
 function setOverflowHiddn(element) {
   let setElement = document.querySelector(element);
   setElement.classList.add("overflowHidden");
@@ -252,10 +263,15 @@ function ButtonDisableToggle(value) {
 
 function loadSpinner(value) {
   if (value == true) {
-    const main = document.querySelector("main");
     main.innerHTML += spinner();
   } else if (value == false) {
     const overlay = document.querySelector(".overlay");
     overlay.remove();
   }
+}
+
+function errorMassage(error) {
+  main.innerHTML = "";
+  main.innerHTML += templateErrorMassage(error);
+  console.log(error);
 }
