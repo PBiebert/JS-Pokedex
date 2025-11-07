@@ -15,6 +15,8 @@
 }
 
 .dialog-body {
+  display: flex;
+  flex-direction: column;
   width: 500px;
   height: 95vh;
   overflow: hidden;
@@ -26,7 +28,13 @@
   flex-direction: column;
   width: 100%;
   height: 30%;
-  padding: 2rem;
+  padding: 1rem;
+}
+
+.poke-img-dialog {
+  height: 150px;
+  margin: auto 0;
+  z-index: 2;
 }
 
 .dialog-poke-background {
@@ -73,13 +81,9 @@
 
 .picture-class-area {
   display: flex;
+
   height: 100%;
   justify-content: space-between;
-}
-
-.poke-img {
-  height: 100%;
-  padding-bottom: 1rem;
 }
 
 .dialog-content-container {
@@ -105,10 +109,12 @@
 }
 
 .stats-name {
+  min-width: 65px;
   width: 20%;
 }
 
 .stats-value {
+  min-width: 65px;
   width: 20%;
 }
 
@@ -139,4 +145,27 @@
 
 #back {
   border-right: 1px solid black;
+}
+#load-more {
+  min-width: 10rem;
+}
+
+@media (max-width: 550px) {
+  dialog {
+    width: 100vw;
+    height: 100vh;
+    max-width: 100vw;
+    max-height: 100vh;
+    border-radius: 0;
+  }
+  .dialog-body {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+@media (max-width: 380px) {
+  .card-container {
+    padding: 0.5rem;
+  }
 }

@@ -124,6 +124,10 @@ button:hover {
   scale: 1.1;
 }
 
+button:disabled {
+  color: grey;
+}
+
 form {
   display: flex;
   align-items: center;

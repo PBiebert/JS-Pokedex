@@ -33,8 +33,8 @@ function templateDialog(stackId) {
           <div class="dialog-img">
             <div class="dialog-headline">
               <div class="name-area">
-              <h2># ${currentStack[stackId].id}</h2>
-                <h2>${currentStack[stackId].name}</h2>
+              <h2># ${activeStack[stackId].id}</h2>
+                <h2>${activeStack[stackId].name}</h2>
               </div>
 
               <button class="close-dialog" onclick="closeDialog()">X</button>
@@ -43,7 +43,7 @@ function templateDialog(stackId) {
               <div class="elements" id="dialog-element-container">
 
               </div>
-              <img class="poke-img" src="${currentStack[stackId].img}" alt="Bild von ${currentStack[stackId].name}" />
+              <img class="poke-img-dialog" src="${activeStack[stackId].img}" alt="Bild von ${activeStack[stackId].name}" />
             </div>
             <svg class="poke-background dialog-poke-background" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
               <path d="M3 12a9 9 0 1 0 18 0 9 9 0 1 0 -18 0"></path>
@@ -63,11 +63,11 @@ function templateDialog(stackId) {
               <table class="about ">
                 <tr>
                   <th>Height:</th>
-                  <td>${currentStack[stackId].height}</td>
+                  <td>${activeStack[stackId].height}</td>
                 </tr>
                 <tr>
                   <th>Weight:</th>
-                  <td>${currentStack[stackId].weight}</td>
+                  <td>${activeStack[stackId].weight}</td>
                 </tr>
                 <tr>
                   <th>Abilities:</th>

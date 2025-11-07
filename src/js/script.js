@@ -4,6 +4,7 @@ const dialog = document.querySelector("dialog");
 let currentStack = [];
 let filterStack = [];
 let allPokemonStack = [];
+let activeStack = [];
 let currentDialog;
 let counter = 3;
 let offset = 0;
@@ -17,6 +18,7 @@ document.addEventListener("keyup", (event) => {
 async function init() {
   loadSpinner(true);
   await loadPokemonList(counter, offset);
+  activeStack = currentStack;
   renderPokemonCard(currentStack);
   renderLoadMoreButton();
   loadSpinner(false);
@@ -62,12 +64,23 @@ function createNewPokemon(pokemonData, saveStack) {
   pokemon.id = pokemonData.id;
   pokemon.name = capitalizeFirstLetter(pokemonData.name);
   pokemon.typs = pokemonData.types;
-  pokemon.img = pokemonData.sprites.other.dream_world.front_default;
+  // pokemon.img = pokemonData.sprites.other.dream_world.front_default;
+  pokemon.img = alternativePokémonImage(pokemonData);
   pokemon.height = (pokemonData.height * 0.1).toFixed(2) + " m";
   pokemon.weight = (pokemonData.weight * 0.1).toFixed(2) + " kg";
   pokemon.abilities = pokemonData.abilities;
   pokemon.stats = pokemonData.stats;
   saveStack.push(pokemon);
+}
+
+function alternativePokémonImage(pokemonData) {
+  if (pokemonData.sprites.other.dream_world.front_default != null) {
+    return pokemonData.sprites.other.dream_world.front_default;
+  } else if (pokemonData.sprites.other["official-artwork"].front_default != null) {
+    return pokemonData.sprites.other["official-artwork"].front_default;
+  } else if (pokemonData.sprites.other.home.front_default != null) {
+    return pokemonData.sprites.other.home.front_default;
+  }
 }
 
 function renderPokemonCard(saveStack) {
@@ -88,7 +101,7 @@ function renderPokemonClass(saveStack, i) {
   for (let j = 0; j < currentPokemon.typs.length; j++) {
     let element = capitalizeFirstLetter(currentPokemon.typs[j].type.name);
 
-    saveStack.innerHTML += templateElement(element, currenElement);
+    currenElement.innerHTML += templateElement(element);
   }
 }
 
@@ -109,19 +122,21 @@ async function loadMore() {
   ButtonDisableToggle(true);
   loadSpinner(true);
   await loadPokemonList(counter, offset);
+  activeStack = currentStack;
   renderPokemonCard(currentStack);
   ButtonDisableToggle(false);
   loadSpinner(false);
 }
 
 function openDialog(id) {
-  const stackId = Number(id - 1);
+  const stackId = activeStack.findIndex((pokemon) => pokemon.id === Number(id));
+  console.log(stackId);
   currentDialog = stackId;
   rednerDialog(stackId);
 }
 
-function rednerDialog(id, saveStag) {
-  setDialogHtml(id, saveStag);
+function rednerDialog(id) {
+  setDialogHtml(id);
   setDialogBackgroundColor(id);
   setDialogElements(id);
   setDialogAbilities(id);
@@ -151,28 +166,28 @@ function closeDialog() {
   dialog.innerHTML = "";
 }
 
-function setDialogHtml(stackId, saveStag) {
-  dialog.innerHTML += templateDialog(stackId, saveStag);
+function setDialogHtml(stackId) {
+  dialog.innerHTML += templateDialog(stackId);
 }
 
 function setDialogBackgroundColor(stackId) {
   let dialogBody = document.querySelector(".dialog-body");
 
-  dialogBody.classList.add(currentStack[stackId].typs[0].type.name);
+  dialogBody.classList.add(activeStack[stackId].typs[0].type.name);
 }
 
 function setDialogElements(stackId) {
   const dialogElementContainer = document.getElementById("dialog-element-container");
 
-  for (let i = 0; i < currentStack[stackId].typs.length; i++) {
-    let element = capitalizeFirstLetter(currentStack[stackId].typs[i].type.name);
+  for (let i = 0; i < activeStack[stackId].typs.length; i++) {
+    let element = capitalizeFirstLetter(activeStack[stackId].typs[i].type.name);
     dialogElementContainer.innerHTML += templateElement(element);
   }
 }
 
 function setDialogAbilities(stackId) {
   const abilities = document.getElementById("abilities");
-  const abilitiesArray = currentStack[stackId].abilities;
+  const abilitiesArray = activeStack[stackId].abilities;
   abilities.innerHTML = "";
 
   for (let i = 0; i < abilitiesArray.length; i++) {
@@ -188,7 +203,7 @@ function setDialogStats(stackId) {
   const baseStatsTable = document.querySelector(".base-stats table");
   baseStatsTable.innerHTML = "";
 
-  const statsArray = currentStack[stackId].stats;
+  const statsArray = activeStack[stackId].stats;
   FormatStatusNames(statsArray);
 
   for (let i = 0; i < statsArray.length; i++) {
@@ -232,8 +247,8 @@ function openDialogNavElement(navElement) {
 
 function checkValidateCurrentIndex() {
   if (currentDialog == -1) {
-    currentDialog = currentStack.length - 1;
-  } else if (currentDialog == currentStack.length) {
+    currentDialog = activeStack.length - 1;
+  } else if (currentDialog == activeStack.length) {
     currentDialog = 0;
   }
 }
@@ -243,10 +258,16 @@ async function filterAllPokemon() {
   let inputMassage = inputField.value.toLowerCase().trim();
 
   if (inputMassage.length >= 3) {
-    let filterResult = allPokemonStack.filter((pokemon) => pokemon.name.startsWith(inputMassage));
+    filterStack = [];
+    let filterResult = allPokemonStack.filter((pokemon) => pokemon.name.toLowerCase().startsWith(inputMassage));
     await loadPokemonDetails(filterResult, filterStack);
-    console.log(filterStack);
+    activeStack = filterStack;
     renderPokemonCard(filterStack);
+    ButtonDisableToggle(true);
+  } else if (inputMassage.length === 0) {
+    activeStack = currentStack;
+    renderPokemonCard(currentStack);
+    ButtonDisableToggle(false);
   }
 }
 
