@@ -61,6 +61,12 @@ function templateDialog(stackId) {
             </nav>
             <div class="dialog-content">
               <table class="about ">
+
+
+               <tr>
+                  <th>Genera:</th>
+                  <td>${activeStack[stackId].genera}</td>
+                </tr>
                 <tr>
                   <th>Height:</th>
                   <td>${activeStack[stackId].height}</td>
@@ -69,6 +75,21 @@ function templateDialog(stackId) {
                   <th>Weight:</th>
                   <td>${activeStack[stackId].weight}</td>
                 </tr>
+                <tr>
+                  <th>Basic color:</th>
+                  <td>${activeStack[stackId].baseColor}</td>
+                </tr>
+
+                <tr>
+                  <th>Base happiness:</th>
+                  <td>${activeStack[stackId].baseHappyness}</td>
+                </tr>
+
+                 <tr>
+                  <th>Base happiness:</th>
+                  <td>${activeStack[stackId].shape}</td>
+                </tr>
+
                 <tr>
                   <th>Abilities:</th>
                   <td id="abilities">dies und das</td>

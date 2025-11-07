@@ -6,7 +6,7 @@ let filterStack = [];
 let allPokemonStack = [];
 let activeStack = [];
 let currentDialog;
-let counter = 3;
+let counter = 20;
 let offset = 0;
 
 document.addEventListener("keyup", (event) => {
@@ -22,7 +22,6 @@ async function init() {
   renderPokemonCard(currentStack);
   renderLoadMoreButton();
   loadSpinner(false);
-  console.log(currentStack);
   loadAllPokemonName();
 }
 
@@ -38,17 +37,37 @@ async function loadPokemonList(counter, offset) {
 }
 
 async function loadPokemonDetails(fetchStack, saveStack) {
-  for (let i = 0; i < fetchStack.length; i++) {
-    try {
-      const response = await fetch(fetchStack[i].url);
-      const pokemonData = await response.json();
+  try {
+    const promises = [];
 
-      console.log(pokemonData);
-
-      createNewPokemon(pokemonData, saveStack);
-    } catch (error) {
-      errorMassage(error);
+    for (let i = 0; i < fetchStack.length; i++) {
+      promises.push(fetchSinglePokemon(fetchStack[i]));
     }
+
+    const allPokemonData = await Promise.all(promises);
+
+    for (let i = 0; i < allPokemonData.length; i++) {
+      const pokemonData = allPokemonData[i].pokemonData;
+      const pokemonSpecies = allPokemonData[i].pokemonSpecies;
+      createNewPokemon(pokemonData, pokemonSpecies, saveStack);
+    }
+  } catch (error) {
+    errorMassage(error);
+  }
+}
+
+async function fetchSinglePokemon(pokemon) {
+  try {
+    const responsePokemonData = await fetch(pokemon.url);
+    const pokemonData = await responsePokemonData.json();
+
+    const responsePokemonSpecies = await fetch(pokemonData.species.url);
+    const pokemonSpecies = await responsePokemonSpecies.json();
+
+    return { pokemonData, pokemonSpecies };
+  } catch (error) {
+    errorMassage(error);
+    return null;
   }
 }
 
@@ -58,7 +77,7 @@ async function loadAllPokemonName() {
   allPokemonStack.push(...responseToJson.results);
 }
 
-function createNewPokemon(pokemonData, saveStack) {
+function createNewPokemon(pokemonData, pokemonSpecies, saveStack) {
   let pokemon = {};
 
   pokemon.id = pokemonData.id;
@@ -70,6 +89,10 @@ function createNewPokemon(pokemonData, saveStack) {
   pokemon.weight = (pokemonData.weight * 0.1).toFixed(2) + " kg";
   pokemon.abilities = pokemonData.abilities;
   pokemon.stats = pokemonData.stats;
+  pokemon.genera = pokemonSpecies.genera[7].genus;
+  pokemon.baseColor = capitalizeFirstLetter(pokemonSpecies.color.name);
+  pokemon.baseHappyness = pokemonSpecies.base_happiness;
+  pokemon.shape = pokemonSpecies.shape.name;
   saveStack.push(pokemon);
 }
 
@@ -130,7 +153,7 @@ async function loadMore() {
 
 function openDialog(id) {
   const stackId = activeStack.findIndex((pokemon) => pokemon.id === Number(id));
-  console.log(stackId);
+
   currentDialog = stackId;
   rednerDialog(stackId);
 }
@@ -256,6 +279,7 @@ function checkValidateCurrentIndex() {
 async function filterAllPokemon() {
   let inputField = document.getElementById("search");
   const cartContainer = document.querySelector(".card-container");
+  const loadMoreButton = document.getElementById("load-more");
   let inputMassage = inputField.value.toLowerCase().trim();
 
   if (inputMassage.length >= 3) {
@@ -263,12 +287,15 @@ async function filterAllPokemon() {
 
     if (filterStack.length == 0) {
       cartContainer.innerHTML = templatePokemonNotFound();
-      toggleDnone(document.getElementById("load-more"));
     }
+    // Button immer verstecken beim Filtern
+    setDnone(loadMoreButton);
   } else if (inputMassage.length === 0) {
+    // Zurück zur normalen Ansicht
     activeStack = currentStack;
     renderPokemonCard(currentStack);
-    toggleDnone(document.getElementById("load-more"));
+    // Button wieder einblenden
+    removeDnone(loadMoreButton);
   }
 }
 
@@ -277,7 +304,10 @@ async function setFilter(inputMassage) {
   let filterResult = allPokemonStack.filter((pokemon) => pokemon.name.toLowerCase().startsWith(inputMassage));
   await loadPokemonDetails(filterResult, filterStack);
   activeStack = filterStack;
-  renderPokemonCard(filterStack);
+
+  if (filterStack.length > 0) {
+    renderPokemonCard(filterStack);
+  }
 }
 
 function setOverflowHiddn(element) {
@@ -314,6 +344,10 @@ function errorMassage(error) {
   console.log(error);
 }
 
-function toggleDnone(element) {
-  element.classList.toggle("d-none");
+function setDnone(element) {
+  element.classList.add("d-none");
+}
+
+function removeDnone(element) {
+  element.classList.remove("d-none");
 }
