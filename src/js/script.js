@@ -75,7 +75,6 @@ async function fetchSinglePokemon(pokemon) {
     return { pokemonData, pokemonSpecies };
   } catch (error) {
     errorMassage(error);
-    return null;
   }
 }
 
@@ -360,8 +359,6 @@ function loadSpinner(value) {
 }
 
 function errorMassage(error) {
-  cartContainer.innerHTML = "";
-  cartContainer.innerHTML += templateErrorMassage();
   console.log(error);
 }
 

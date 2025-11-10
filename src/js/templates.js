@@ -159,14 +159,6 @@ function spinner() {
       </div>`;
 }
 
-function templateErrorMassage() {
-  return `
-  <div class="error-massage">
-    <p>Es ist ein Fehler aufgetreten</p>
-    <p>Bitte versuchen Sie es später erneut</p>
-  </div>`;
-}
-
 function templatePokemonNotFound() {
   return `<h2 id="not-found">Pokémon not found!</h2>`;
 }
