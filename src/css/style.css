@@ -159,22 +159,42 @@
 }
 
 @media (max-width: 550px) {
-  dialog {
-    width: 100%;
-    height: 100%;
-    max-width: 100vw;
-    max-height: 100vh;
-    border-radius: 0;
-  }
   .dialog-body {
-    width: 100%;
-    height: 100%;
+    width: 400px;
+  }
+
+  .dialog-button {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 450px) {
+  .dialog-body {
+    width: 330px;
+  }
+
+  .dialog-img {
+    padding: 0.5rem;
+  }
+
+  .dialog-content {
+    padding: 1rem 1rem;
+  }
+
+  .dialog-button {
+    font-size: 1rem;
   }
 }
 
 @media (max-width: 380px) {
-  .card-container {
-    padding: 0.5rem;
+  .dialog-body {
+    width: 300px;
+  }
+}
+
+@media (max-width: 340px) {
+  .dialog-body {
+    width: 280px;
   }
 }
 
