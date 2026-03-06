@@ -123,7 +123,9 @@ function templateDialogStats(statsArray) {
 
 function templateLoadMoreButton() {
   return `
-        <button id="load-more" type="button" onclick="loadMore()">load more</button>`;
+    <div class="loadmore-actions">
+      <button id="load-more" type="button" onclick="loadMore()">load more</button>
+    </div>`;
 }
 
 function spinner() {
