@@ -252,29 +252,30 @@
   transform: none;
 }
 
-.impressum-wrapper {
+.imprint-wrapper {
   width: 100%;
   max-width: 900px;
   color: var(--color-fonts);
   background: rgba(0, 0, 0, 0.2);
   border-radius: 1rem;
   padding: 1.25rem;
+  margin: 2rem auto;
 }
 
-.impressum-wrapper h1 {
+.imprint-wrapper h1 {
   margin-bottom: 1rem;
 }
 
-.impressum-wrapper h3 {
+.imprint-wrapper h3 {
   margin-top: 1rem;
   margin-bottom: 0.5rem;
 }
 
-.impressum-wrapper p {
+.imprint-wrapper p {
   line-height: 1.4;
 }
 
-.impressum-footer {
+.imprint-footer {
   display: flex;
   justify-content: flex-end;
   align-items: center;
