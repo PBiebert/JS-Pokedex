@@ -43,7 +43,7 @@ function templateDialog(stackId) {
               <div class="elements" id="dialog-element-container">
 
               </div>
-              <img class="poke-img-dialog" src="${activeStack[stackId].img}" alt="Bild von ${activeStack[stackId].name}" />
+              <img class="poke-img-dialog" src="${activeStack[stackId].img}" alt="Image of ${activeStack[stackId].name}" />
             </div>
             <svg class="poke-background dialog-poke-background" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
               <path d="M3 12a9 9 0 1 0 18 0 9 9 0 1 0 -18 0"></path>
@@ -92,7 +92,7 @@ function templateDialog(stackId) {
 
                 <tr>
                   <th>Abilities:</th>
-                  <td id="abilities">dies und das</td>
+                  <td id="abilities">placeholder</td>
                 </tr>
               </table>
 
